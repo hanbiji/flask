@@ -1,0 +1,14 @@
+<h1>AI FACEBOOK 广告语编写</h1>
+<div>
+    <form method="POST">
+        {{ form.hidden_tag() }}
+        {{ form.name.label }} <br>
+        {{ form.name(rows=5, cols=100) }} <br><br>
+        {{ form.submit() }}
+    </form>
+</div>
+
+<h3>AI的回答</h3>
+<div>
+    <textarea rows="10" cols="100">{{ name }}</textarea>
+</div>
