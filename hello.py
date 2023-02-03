@@ -6,6 +6,7 @@ from flask import Flask, render_template
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, TextAreaField, SelectField
 from wtforms.validators import DataRequired
+from flask_bootstrap import Bootstrap
 
 import os
 import openai
@@ -14,6 +15,10 @@ import json
 
 load_dotenv()
 openai.api_key = os.getenv("OPENAI_API_KEY")
+
+app = Flask(__name__)
+bootstrap = Bootstrap(app)
+app.config['SECRET_KEY'] = 'DsdflIsdf89'
 
 class NameForm(FlaskForm):
     name = TextAreaField('内容?', validators=[DataRequired()])
@@ -27,9 +32,6 @@ class TranslateForm(FlaskForm):
     body = TextAreaField('需要翻译的内容?', validators=[DataRequired()])
     language = SelectField('语言', choices=[('English', '英语'), ('Japanese', '日语'), ('French', '法语')])
     submit = SubmitField('开始翻译')
-
-app = Flask(__name__)
-app.config['SECRET_KEY'] = 'DsdflIsdf89'
 
 @app.route('/', methods=['GET', 'POST'])
 def index():

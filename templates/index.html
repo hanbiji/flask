@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}Index{% endblock %}
+{% block title %}Index - AI 电商效率工具{% endblock %}
 
 {% block head %}
 {{ super() }}
@@ -8,24 +8,22 @@
 </style>
 {% endblock %}
 
-{% block body %}
-<div style="width: 1000px;margin: auto;">
-    <h1>AI 电商效率工具</h1>
-    <div>
-        <ul>
-            <li>
-                <a href="/facebook/ads">广告语</a>
-            </li>
-            <li>
-                <a href="/correct">语法优化</a>
-            </li>
-            <li>
-                <a href="/mail">邮件回复</a>
-            </li>
-            <li>
-                <a href="/translate">翻译</a>
-            </li>
-        </ul>
-    </div>
+{% block page_content %}
+<h1>AI 电商效率工具</h1>
+<div>
+    <ul>
+        <li>
+            <a href="/facebook/ads">广告语</a>
+        </li>
+        <li>
+            <a href="/correct">语法优化</a>
+        </li>
+        <li>
+            <a href="/mail">邮件回复</a>
+        </li>
+        <li>
+            <a href="/translate">翻译</a>
+        </li>
+    </ul>
 </div>
 {% endblock %}

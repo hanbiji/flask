@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}Index{% endblock %}
+{% block title %}语法优化 - AI 电商效率工具{% endblock %}
 
 {% block head %}
 {{ super() }}
@@ -8,24 +8,22 @@
 </style>
 {% endblock %}
 
-{% block body %}
-<div style="width: 1000px;margin: auto;">
-    <h1>AI 语法优化</h1>
-    <div>
-        <form method="POST">
-            {{ form.hidden_tag() }}
-            {{ form.name.label }} <br>
-            {{ form.name(rows=10, cols=150) }} <br><br>
-            {{ form.submit() }}
-        </form>
-    </div>
+{% block page_content %}
+<h1>AI 语法优化</h1>
+<div>
+    <form method="POST">
+        {{ form.hidden_tag() }}
+        {{ form.name.label }} <br>
+        {{ form.name(rows=10, cols=150) }} <br><br>
+        {{ form.submit() }}
+    </form>
+</div>
 
-    <h3>AI的回答</h3>
-    <div>
-        <textarea rows="10" cols="150">{{ name }}</textarea>
-    </div>
-    <div>
-        {{ response }}
-    </div>
+<h3>AI的回答</h3>
+<div>
+    <textarea rows="10" cols="150">{{ name }}</textarea>
+</div>
+<div>
+    {{ response }}
 </div>
 {% endblock %}
