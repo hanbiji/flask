@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}Index{% endblock %}
+
+{% block head %}
+{{ super() }}
+<style>
+</style>
+{% endblock %}
+
+{% block body %}
+<div style="width: 1000px;margin: auto;">
+    <h1>回复邮件</h1>
+    <div>
+        <form method="POST">
+            {{ form.hidden_tag() }}
+            {{ form.body.label }} <br>
+            {{ form.body(rows=20, cols=150) }} <br><br>
+            {{ form.submit() }}
+        </form>
+    </div>
+
+    <h3>AI的回答</h3>
+    <div>
+        <textarea rows="30" cols="150">{{ body }}</textarea>
+    </div>
+    <div>
+        {{ response }}
+    </div>
+</div>
+{% endblock %}
