@@ -62,8 +62,7 @@ def facebook_ads():
 
     if name is None:
         # name = "用英语为以下产品编写创意广告, 在 Facebook 上投放, 要求简短:\n\nProduct: Ski Jacket Coat Waterproof Windproof Warm Winter Snow Coat Hooded Outdoor Skiing Rain Jacket 20% Off Coupon over $199"
-        name = "用英语为以下产品编写创意广告, 在 Facebook 上投放, 要求简短:\n\nProduct: Women's Plus Size Tankini Bandeau Swimsuit Two Piece Bathing Suit Tummy Control Swimwear with Shorts 20% OFF Coupon over $99 and Free Shipping over $69"
-        form.name.data = name
+        form.name.data = "用英语为以下产品编写创意广告, 在 Facebook 上投放, 要求简短:\n\nProduct: Women's Plus Size Tankini Bandeau Swimsuit Two Piece Bathing Suit Tummy Control Swimwear with Shorts 20% OFF Coupon over $99 and Free Shipping over $69"
     return render_template('facebook_ads.html', form=form, name=name, response=response)
 
 @app.route('/correct', methods=['GET', 'POST'])
