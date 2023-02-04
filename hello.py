@@ -24,6 +24,18 @@ class NameForm(FlaskForm):
     name = TextAreaField('内容?', validators=[DataRequired()])
     submit = SubmitField('开始生成')
 
+class AdsForm(FlaskForm):
+    platform = SelectField('广告平台', choices=[('Facebook', 'Facebook'), ('Google', 'Google')])
+    age = SelectField('年龄', choices=[('<18', '<18'), ('18-30', '18-30'), ('30-45', '30-45'), ('45-65', '45-65'), ('65+', '65+')])
+    gender = SelectField('性别', choices=[('', '不限'), ('women', '女性'), ('men', '男性'), ('young adults', '年轻人'), ('kids', '儿童')])
+    body = TextAreaField('内容?', validators=[DataRequired()])
+    submit = SubmitField('开始生成')
+
+class AmazonForm(FlaskForm):
+    product = StringField('产品?', validators=[DataRequired()])
+    body = TextAreaField('关键词?', validators=[DataRequired()])
+    submit = SubmitField('开始生成')
+
 class MailForm(FlaskForm):
     body = TextAreaField('邮件内容?', validators=[DataRequired()])
     submit = SubmitField('开始生成')
@@ -43,14 +55,14 @@ def user(name):
 
 @app.route('/facebook/ads', methods=['GET', 'POST'])
 def facebook_ads():
-    form = NameForm()
+    form = AdsForm()
     name = None
     ai_data = None
     response = None
     if form.validate_on_submit():
         response = openai.Completion.create(
             model="text-davinci-003",
-            prompt=form.name.data,
+            prompt="I want you to act as an advertiser. Please create a creative advertisement for the following product to be placed on Facebook targeting %s aged %s, adding appropriate emojis, and keeping it brief:\n\n%s" % (form.gender.data, form.age.data, form.body.data),
             temperature=0.5,
             max_tokens=300,
             top_p=1.0,
@@ -62,7 +74,7 @@ def facebook_ads():
 
     if name is None:
         # name = "用英语为以下产品编写创意广告, 在 Facebook 上投放, 要求简短:\n\nProduct: Ski Jacket Coat Waterproof Windproof Warm Winter Snow Coat Hooded Outdoor Skiing Rain Jacket 20% Off Coupon over $199"
-        form.name.data = "用英语为以下产品编写创意广告, 在 Facebook 上投放, 要求简短:\n\nProduct: Women's Plus Size Tankini Bandeau Swimsuit Two Piece Bathing Suit Tummy Control Swimwear with Shorts 20% OFF Coupon over $99 and Free Shipping over $69"
+        form.body.data = "Women's Plus Size Tankini Bandeau Swimsuit Two Piece Bathing Suit Tummy Control Swimwear with Shorts 20% OFF Coupon over $99 and Free Shipping over $69"
     return render_template('facebook_ads.html', form=form, name=name, response=response)
 
 @app.route('/correct', methods=['GET', 'POST'])
@@ -161,6 +173,32 @@ def translate():
         body = ai_data['choices'][0]['text']
 
     return render_template('translate.html', form=form, body=body, response=response)
+
+@app.route('/amazon', methods=['GET', 'POST'])
+def amazon():
+    """
+    亚马逊
+    Returns:
+        _type_: _description_
+    """
+    form = AmazonForm()
+    body = None
+    ai_data = None
+    response = None
+    if form.validate_on_submit():
+        response = openai.Completion.create(
+            model="text-davinci-003",
+            prompt='I sell %s on Amazon, please help me write a title and 5 point description with keywords:\n\n%s' % (form.product.data, form.body.data),
+            temperature=0,
+            max_tokens=1024,
+            top_p=1.0,
+            frequency_penalty=0.0,
+            presence_penalty=0.0
+        )
+        ai_data = response
+        body = ai_data['choices'][0]['text']
+
+    return render_template('amazon.html', form=form, body=body, response=response)
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')

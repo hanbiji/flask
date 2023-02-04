@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}广告语编写 - AI 电商效率工具{% endblock %}
+{% block title %}亚马逊标题与五点描述 - AI 电商效率工具{% endblock %}
 
 {% block head %}
 {{ super() }}
@@ -10,24 +10,22 @@
 
 {% block page_content %}
 <div class="page-header">
-    <h1>广告语编写</h1>
+    <h1>亚马逊标题与五点描述</h1>
 </div>
 <div>
     <form method="POST">
         {{ form.hidden_tag() }}
-        {{ form.platform.label }}: {{ form.platform() }} 
-        {{ form.gender.label }}: {{ form.gender() }} 
-        {{ form.age.label }}: {{ form.age() }} 
-        <br>
+        {{ form.product.label }} <br>
+        {{ form.product(size=100) }} <br><br>
         {{ form.body.label }} <br>
-        {{ form.body(rows=10, cols=150) }} <br><br>
+        {{ form.body(rows=5, cols=150) }} <br><br>
         {{ form.submit() }}
     </form>
 </div>
 
 <h3>AI的回答</h3>
 <div>
-    <textarea rows="10" cols="150">{{ name }}</textarea>
+    <textarea rows="30" cols="150">{{ body }}</textarea>
 </div>
 <div style="display:none;">
     {{ response }}
