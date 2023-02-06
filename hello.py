@@ -188,7 +188,7 @@ def amazon():
     if form.validate_on_submit():
         response = openai.Completion.create(
             model="text-davinci-003",
-            prompt='I sell %s on Amazon, please help me write a title and 5 point description with keywords:\n\n%s' % (form.product.data, form.body.data),
+            prompt='I sell %s on Amazon, please help me write a title, 5-point description and related keywords with keywords:\n\n%s' % (form.product.data, form.body.data),
             temperature=0,
             max_tokens=1024,
             top_p=1.0,
@@ -199,6 +199,26 @@ def amazon():
         body = ai_data['choices'][0]['text']
 
     return render_template('amazon.html', form=form, body=body, response=response)
+
+@app.route('/image', methods=['GET', 'POST'])
+def image():
+    """
+    图片生成
+    """
+    return 'Hello world.'
+    form = NameForm()
+    api_data = None
+    image_url = None
+    if form.validate_on_submit():
+        response = openai.Image.create(
+            prompt=form.name.data,
+            n=1,
+            size="1024x1024"
+        )
+        api_data = response
+        image_url = response['data'][0]['url']
+
+    return render_template('image.html', form=form, api_data=api_data, image_url=image_url)
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')
