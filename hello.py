@@ -205,7 +205,7 @@ def image():
     """
     图片生成
     """
-    return 'Hello world.'
+    return '试用请联系hanbiji@qq.com'
     form = NameForm()
     api_data = None
     image_url = None
