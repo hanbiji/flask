@@ -135,7 +135,7 @@ def email():
             model="text-davinci-003",
             prompt=form.body.data,
             temperature=0.5,
-            max_tokens=1024,
+            max_tokens=2048,
             top_p=1.0,
             frequency_penalty=0.0,
             presence_penalty=0.0
