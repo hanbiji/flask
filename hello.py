@@ -40,6 +40,10 @@ class MailForm(FlaskForm):
     body = TextAreaField('邮件内容?', validators=[DataRequired()])
     submit = SubmitField('开始生成')
 
+class ChatForm(FlaskForm):
+    body = TextAreaField('内容?', validators=[DataRequired()])
+    submit = SubmitField('提交')
+
 class TranslateForm(FlaskForm):
     body = TextAreaField('需要翻译的内容?', validators=[DataRequired()])
     language = SelectField('语言', choices=[('English', '英语'), ('Japanese', '日语'), ('French', '法语')])
@@ -219,6 +223,37 @@ def image():
         image_url = response['data'][0]['url']
 
     return render_template('image.html', form=form, api_data=api_data, image_url=image_url)
+@app.route('/chat', methods=['GET', 'POST'])
+def chat():
+    """
+    Chat
+    """
+    form = ChatForm()
+    body = None
+    ai_data = None
+    completion = None
+    if form.validate_on_submit():
+        completion = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo",
+            messages=[
+                {
+                    'role': 'user',
+                    'content': form.body.data
+                }
+            ],
+            # I sell product on walmart.com, Please help me write a product title with keywords within 100 characters, The standard form is: Style + Defining Qualities + Item Name + Pack Count, if applicable. Example: Contemporary Style George Girls' Short-Sleeve Polo. The original product details are below: 
+            # I sell product on walmart.com, Please help me write a product description. The original product details are below: 
+            # prompt='I sell %s on Amazon, please help me write a title, 5-point description and related keywords with keywords:\n\n%s' % (form.product.data, form.body.data),
+            # temperature=0,
+            # max_tokens=1024,
+            # top_p=1.0,
+            # frequency_penalty=0.0,
+            # presence_penalty=0.0
+        )
+        ai_data = completion 
+        body = ai_data['choices'][0]['message']['content'].replace('"', '').strip()
+
+    return render_template('chat.html', form=form, body=body, response=completion)
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')
