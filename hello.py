@@ -243,6 +243,7 @@ def chat():
             ],
             # I sell product on walmart.com, Please help me write a product title with keywords within 100 characters, The standard form is: Style + Defining Qualities + Item Name + Pack Count, if applicable. Example: Contemporary Style George Girls' Short-Sleeve Polo. The original product details are below: 
             # I sell product on walmart.com, Please help me write a product description. The original product details are below: 
+            # Search for the "material" attribute in this product description and return the content of the attribute without the attribute name. If it cannot be found, return 0.
             # prompt='I sell %s on Amazon, please help me write a title, 5-point description and related keywords with keywords:\n\n%s' % (form.product.data, form.body.data),
             # temperature=0,
             # max_tokens=1024,
